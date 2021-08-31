@@ -1,7 +1,7 @@
 import { ScreepsApi } from "index";
 import * as assert from "assert";
 import { ApiConfig } from "type";
-import { userData } from "../../screepsUserData";
+import { userData } from "../../authInfo";
 import { resolve } from "path";
 
 describe("api", () => {
@@ -24,18 +24,22 @@ describe("api", () => {
             assert.deepStrictEqual(api.apiConfig, apiConfig);
         });
 
-        it("sign in", async done => {
-            const token = await api
-                .signin()
-                .then(onfulfilled => {
-                    console.log(onfulfilled.token);
-                    done();
-                    resolve("");
-                })
-                .catch(err => {
-                    done(err);
-                    throw err;
-                });
+        it("sign in", async () => {
+            const data = await api.signin();
+            console.log(data);
+        });
+
+        const testStr = `test${Date.now()}`;
+        it("post segment", async () => {
+            const data = await api.postSegment({ shard: "shard3", segment: 30, data: testStr });
+            console.log(data);
+            assert.strictEqual(data.ok, 1);
+        });
+
+        it("get segment", async () => {
+            const data = await api.getSegment({ shard: "shard3", segment: 30 });
+            console.log(data);
+            assert.strictEqual(data.data, testStr);
         });
     });
 });

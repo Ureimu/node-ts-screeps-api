@@ -13,6 +13,7 @@ export default {
         format: "cjs",
         sourcemap: true,
     },
+    external:["zlib","util","https","http","url","assert","stream","tty","os"],
 
     plugins: [
         clear({ targets: ["dist"] }),

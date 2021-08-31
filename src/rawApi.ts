@@ -1,22 +1,22 @@
 import { RawApiPostData, RawApiReturnData } from "apiType";
 import axios, { AxiosInstance } from "axios";
-import * as util from "util";
-import * as zlib from "zlib";
+import { promisify } from "util";
+import { gunzip } from "zlib";
 import { ApiConfig, AuthType, BasicRequestMethod, RequestOpts } from "type";
-const gunzipAsync = util.promisify(zlib.gunzip);
+const gunzipAsync = promisify(gunzip);
 export class RawApi<T extends AuthType> {
     public apiConfig: ApiConfig<T>;
     public xToken?: string;
-    public http?: AxiosInstance;
-    public opts?: Partial<RequestOpts>;
-    public baseUrl: string;
+    private http?: AxiosInstance;
+    private opts?: Partial<RequestOpts>;
+    private baseUrl: string;
     public constructor(apiConfig: ApiConfig<T>) {
         this.apiConfig = apiConfig;
         const { protocol, hostname, path } = this.apiConfig.hostInfo;
         this.baseUrl = `${protocol}://${hostname}${path}`;
     }
 
-    public setServer(opts: RequestOpts): void {
+    private setServer(opts: RequestOpts): void {
         if (!this.opts) {
             this.opts = {};
         }
@@ -29,12 +29,12 @@ export class RawApi<T extends AuthType> {
             baseURL: this.opts.url
         });
     }
-    public async gz<T>(data: string): Promise<T> {
+    private async gz<T>(data: string): Promise<T> {
         const buf = Buffer.from(data.slice(3), "base64");
         const ret = (await gunzipAsync(buf)) as { toString: () => string };
         return JSON.parse(ret.toString()) as T;
     }
-    public async req(method: BasicRequestMethod, path: string, body = {}): Promise<Record<string, unknown>> {
+    private async req(method: BasicRequestMethod, path: string, body = {}): Promise<Record<string, unknown>> {
         const opts: RequestOpts = {
             method,
             url: path,
@@ -73,9 +73,22 @@ export class RawApi<T extends AuthType> {
     public async signin(
         args: RawApiPostData<"signinByPassword" | "signinByToken">
     ): Promise<RawApiReturnData<"signinByPassword">> {
-        this.setServer({ method: "POST", url: this.baseUrl, headers: {} });
-        return this.req("POST", "/api/auth/signin", args) as Promise<
+        const method = "POST";
+        this.setServer({ method, url: this.baseUrl, headers: {} });
+        return this.req(method, "/api/auth/signin", args) as Promise<
             RawApiReturnData<"signinByPassword" | "signinByToken">
         >;
+    }
+
+    public async getSegment(args: RawApiPostData<"getSegment">): Promise<RawApiReturnData<"getSegment">> {
+        const method = "GET";
+        this.setServer({ method, url: this.baseUrl, headers: {} });
+        return this.req(method, "/api/user/memory-segment", args) as Promise<RawApiReturnData<"getSegment">>;
+    }
+
+    public async postSegment(args: RawApiPostData<"postSegment">): Promise<RawApiReturnData<"postSegment">> {
+        const method = "POST";
+        this.setServer({ method, url: this.baseUrl, headers: {} });
+        return this.req(method, "/api/user/memory-segment", args) as Promise<RawApiReturnData<"postSegment">>;
     }
 }

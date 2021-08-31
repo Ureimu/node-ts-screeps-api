@@ -21,7 +21,8 @@
 
 # Screeps Config
 screeps.json
-screeps.ts
+screepsUserData.ts
+authInfo.ts
 .screeps-multimeter.history
 screeps-multimeter.json
 
