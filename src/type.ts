@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export interface ApiConfig<T extends AuthType> {
     authInfo: AuthInfo<T>;
     hostInfo: HostInfo;
@@ -27,4 +28,41 @@ export interface RequestOpts {
     path?: string;
     xToken?: string;
     headers: Record<string, unknown>;
+}
+
+export interface Badge {
+    type: number;
+    color1: string;
+    color2: string;
+    color3: string;
+    param: number[];
+    flip: boolean;
+}
+export interface MyUserInfo {
+    ok: number;
+    _id: string;
+    email: string;
+    username: string;
+    cpu: number;
+    badge: Badge;
+    password: string;
+    notifyPrefs: {
+        sendOnline: any;
+        errorsInterval: any;
+        disabledOnMessages: any;
+        disabled: any;
+        interval: any;
+    };
+    gcl: number;
+    credits: number;
+    lastChargeTime: string;
+    lastTweetTime: string;
+    github: {
+        id: string;
+        username: string;
+    };
+    twitter: {
+        username: string;
+        followers_count: number;
+    };
 }
