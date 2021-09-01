@@ -1,7 +1,9 @@
-import { ScreepsApi } from "index";
 import * as assert from "assert";
-import { ApiConfig } from "type";
+
 import { userData } from "../../authInfo";
+import { writeFileSync } from "fs";
+import { ScreepsApi } from "../../src";
+import { ApiConfig } from "../../src/type";
 // 上面的userData需要自己在根目录创建，示例参照根目录的authInfoSample.ts
 describe("api", () => {
     describe("create api", () => {
@@ -82,7 +84,9 @@ describe("api", () => {
 
         it("get roomObjects", async () => {
             const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E34S21" });
-            console.log(Object.keys(data).slice(0, 5));
+            console.log(data.objects[0]._id);
+            // const name = "test-E34S21";
+            // writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
         });
 
         it("get encoded roomTerrain", async () => {

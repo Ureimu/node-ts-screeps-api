@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/prefer-regexp-exec */
-/* eslint-disable no-underscore-dangle */
 import { EventEmitter } from "events";
 import WebSocket from "ws";
 import { URL } from "url";

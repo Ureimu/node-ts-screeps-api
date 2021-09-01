@@ -4,6 +4,7 @@ import axios, { AxiosInstance } from "axios";
 import { promisify } from "util";
 import { gunzip, inflate } from "zlib";
 import { ApiConfig, AuthType, Badge, BasicRequestMethod, MyUserInfo, RequestOpts } from "./type";
+import { RoomObjectReturn } from "./rawApiType/roomObjects";
 
 const gunzipAsync = promisify(gunzip);
 const inflateAsync = promisify(inflate);
@@ -149,7 +150,7 @@ export class RawApi<T extends AuthType> {
         return this.req("POST", "/api/game/create-construction", args);
     }
 
-    public async getRoomObjects(args: { room: string; shard: string }): Promise<Record<string, unknown>> {
+    public async getRoomObjects(args: { room: string; shard: string }): Promise<RoomObjectReturn> {
         return this.req("GET", "/api/game/room-objects", args);
     }
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { ApiConfig, AuthType, MyUserInfo } from "./type";
 
 import { RawApiReturnData } from "./apiType";
