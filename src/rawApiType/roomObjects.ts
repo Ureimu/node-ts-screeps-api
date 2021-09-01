@@ -7,6 +7,13 @@ export interface RoomObjectReturn {
 }
 export type AnyRoomObjects = Source | Mineral | Controller;
 export type RoomObjectType = "source" | "mineral" | "controller";
+export type SpecifiedRoomObject<T extends RoomObjectType> = T extends "source"
+    ? Source
+    : T extends "mineral"
+    ? Mineral
+    : T extends "controller"
+    ? Controller
+    : never;
 export interface BasicRoomObject {
     x: number;
     y: number;
