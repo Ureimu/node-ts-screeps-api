@@ -19,12 +19,12 @@
     "search.exclude": {
         "_book/**": true,
         ".rpt2_cache/**": true,
-        "dist/**": true,
-        "node_modules/**": true,
-        "typings/**": true,
         "**/.nyc_output": true,
         "**/coverage": true,
-        "docs/**": true
+        "dist/**": true,
+        "docs/**": true,
+        "node_modules/**": true,
+        "typings/**": true
     },
     "files.exclude": {
         ".history/**": true
@@ -54,6 +54,7 @@
         "dont",
         "dynamicmarket",
         "estree",
+        "importee",
         "lcov",
         "mincut",
         "mongodb",
@@ -81,4 +82,5 @@
         "ts-node/register",
         "test/setup-mocha.js"
     ],
+    "search.useIgnoreFiles": false,
 }

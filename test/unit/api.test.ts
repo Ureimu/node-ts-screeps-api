@@ -19,6 +19,8 @@ describe("api", () => {
             }
         };
         const api = new ScreepsApi(apiConfig);
+        const rawApi = api.rawApi;
+        const socket = api.socket;
         it("is apiConfig stored properly", () => {
             assert.deepStrictEqual(api.apiConfig, apiConfig);
         });
@@ -26,7 +28,7 @@ describe("api", () => {
         it("throw Error when unauthorized", async () => {
             let anErr;
             try {
-                await api.postSegment({ shard: "shard3", segment: 30, data: "test" });
+                await rawApi.postSegment({ shard: "shard3", segment: 30, data: "test" });
             } catch (err) {
                 anErr = err;
                 const message = (err as Error).message;
@@ -38,10 +40,10 @@ describe("api", () => {
         it("test socket", async () => {
             let hasCpu = false;
 
-            await api.signin();
-            await api.socket.connect();
-            await api.socket.subscribe("cpu");
-            api.socket.on("cpu", ev => {
+            await api.auth();
+            await socket.connect();
+            await socket.subscribe("cpu");
+            socket.on("cpu", ev => {
                 const event = ev as { data: { cpu: number } };
                 console.log(`cpu: ${event.data.cpu}`); // cpu used last tick
                 hasCpu = true;
@@ -61,21 +63,31 @@ describe("api", () => {
         });
 
         it("sign in", async () => {
-            const data = await api.signin();
+            const data = await rawApi.auth();
             console.log(data);
         });
 
         const testStr = `test${Date.now()}`;
         it("post segment", async () => {
-            const data = await api.postSegment({ shard: "shard3", segment: 30, data: testStr });
+            const data = await rawApi.postSegment({ shard: "shard3", segment: 30, data: testStr });
             console.log(data);
             assert.strictEqual(data.ok, 1);
         });
 
         it("get segment", async () => {
-            const data = await api.getSegment({ shard: "shard3", segment: 30 });
+            const data = await rawApi.getSegment({ shard: "shard3", segment: 30 });
             console.log(data);
             assert.strictEqual(data.data, testStr);
+        });
+
+        it("get roomObjects", async () => {
+            const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E34S21" });
+            console.log(Object.keys(data).slice(0, 5));
+        });
+
+        it("get encoded roomTerrain", async () => {
+            const data = await rawApi.getEncodedRoomTerrain({ shard: "shard3", room: "E34S21" });
+            console.log(data);
         });
     });
 });

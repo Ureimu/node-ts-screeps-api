@@ -80,10 +80,9 @@ export class RawApi<T extends AuthType> {
         return JSON.parse(ret.toString()) as string;
     }
 
-    public async signin(
-        args: RawApiPostData<"signinByPassword" | "signinByToken">
-    ): Promise<RawApiReturnData<"signinByPassword">> {
-        return this.req("POST", "/api/auth/signin", args);
+    public async auth(): Promise<RawApiReturnData<"signinByPassword">> {
+        const data = await this.req("POST", "/api/auth/signin", this.apiConfig.authInfo);
+        return data as Promise<RawApiReturnData<"signinByPassword">>;
     }
 
     public async getSegment(args: RawApiPostData<"getSegment">): Promise<RawApiReturnData<"getSegment">> {
@@ -110,15 +109,54 @@ export class RawApi<T extends AuthType> {
         return this.req("GET", "/api/auth/me");
     }
 
-    public async queryToken(token: string): Promise<{ token: string }> {
-        return this.req("GET", "/api/auth/query-token", { token });
+    public async queryToken(args: { token: string }): Promise<{ token: string }> {
+        return this.req("GET", "/api/auth/query-token", args);
     }
 
-    /**
-     * GET /api/user/name
-     * @returns {Object}
-     */
     public async myName(): Promise<{ username: string }> {
         return this.req("GET", "/api/user/name");
+    }
+
+    public async createConstruction(args: {
+        room: string;
+        x: number;
+        y: number;
+        structureType: string;
+        name: string;
+        shard: string;
+    }): Promise<{
+        ok: number;
+        result: {
+            ok: number;
+            n: number;
+        };
+        ops: [
+            {
+                type: string;
+                room: string;
+                x: number;
+                y: number;
+                structureType: string;
+                user: string;
+                progress: number;
+                progressTotal: number;
+                _id: string;
+            }
+        ];
+        insertedCount: number;
+        insertedIds: string[];
+    }> {
+        return this.req("POST", "/api/game/create-construction", args);
+    }
+
+    public async getRoomObjects(args: { room: string; shard: string }): Promise<Record<string, unknown>> {
+        return this.req("GET", "/api/game/room-objects", args);
+    }
+
+    public async getEncodedRoomTerrain(args: {
+        room: string;
+        shard: string;
+    }): Promise<{ ok: number; terrain: [{ _id: string; room: string; terrain: string; type: string }] }> {
+        return this.req("GET", "/api/game/room-terrain", { ...args, encoded: 1 });
     }
 }
