@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
-import { RawApiPostData, RawApiReturnData } from "apiType";
+import { RawApiPostData, RawApiReturnData } from "./apiType";
 import axios, { AxiosInstance } from "axios";
 import { promisify } from "util";
 import { gunzip, inflate } from "zlib";
-import { ApiConfig, AuthType, Badge, BasicRequestMethod, MyUserInfo, RequestOpts } from "type";
+import { ApiConfig, AuthType, Badge, BasicRequestMethod, MyUserInfo, RequestOpts } from "./type";
 
 const gunzipAsync = promisify(gunzip);
 const inflateAsync = promisify(inflate);

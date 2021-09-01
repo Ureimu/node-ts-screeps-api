@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { ApiConfig, AuthType, MyUserInfo } from "type";
+import { ApiConfig, AuthType, MyUserInfo } from "./type";
 
-import { RawApiReturnData } from "apiType";
-import { RawApi } from "rawApi";
-import { Socket } from "socket";
+import { RawApiReturnData } from "./apiType";
+import { RawApi } from "./rawApi";
+import { Socket } from "./socket";
 
 export class ScreepsApi<T extends AuthType> {
     public apiConfig: ApiConfig<T>;

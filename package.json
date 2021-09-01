@@ -1,6 +1,6 @@
 {
     "name": "node-ts-screeps-api",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "node-ts-screeps-api",
     "main": "dist/index.js",
     "typings": "./dist/src/index.d.ts",

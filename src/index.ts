@@ -1,3 +1,3 @@
-import { ScreepsApi } from "api";
+import { ScreepsApi } from "./api";
 
 export { ScreepsApi };

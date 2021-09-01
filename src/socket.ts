@@ -4,8 +4,8 @@ import { EventEmitter } from "events";
 import WebSocket from "ws";
 import { URL } from "url";
 const debug = console.log;
-import { ScreepsApi } from "api";
-import { AuthType } from "type";
+import { ScreepsApi } from "./api";
+import { AuthType } from "./type";
 const DEFAULTS = {
     reconnect: true,
     resubscribe: true,
