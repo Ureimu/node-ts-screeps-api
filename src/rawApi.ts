@@ -16,10 +16,10 @@ export class RawApi<T extends AuthType> {
     private baseUrl: string;
     public constructor(apiConfig: ApiConfig<T>) {
         this.apiConfig = apiConfig;
-        const { protocol, hostname, path } = this.apiConfig.hostInfo;
-        this.baseUrl = `${protocol}://${hostname}${path}`;
+        const { protocol, hostname, path, port } = this.apiConfig.hostInfo;
+        this.baseUrl =
+            protocol !== "localhost" ? `${protocol}://${hostname}${path}` : `http://${hostname}:${port}${path}`;
     }
-
     private setServer(opts: Partial<RequestOpts>): void {
         if (!this.opts) {
             this.opts = {};
@@ -38,7 +38,7 @@ export class RawApi<T extends AuthType> {
         const ret = (await gunzipAsync(buf)) as { toString: () => string };
         return JSON.parse(ret.toString()) as T;
     }
-    private async req<T>(method: BasicRequestMethod, path: string, body = {}, headers = {}): Promise<T> {
+    public async req<T>(method: BasicRequestMethod, path: string, body = {}, headers = {}): Promise<T> {
         this.setServer({ method, url: this.baseUrl, headers });
         const opts: RequestOpts = {
             method,
@@ -124,7 +124,7 @@ export class RawApi<T extends AuthType> {
         y: number;
         structureType: string;
         name: string;
-        shard: string;
+        shard?: string;
     }): Promise<{
         ok: number;
         result: {
@@ -150,13 +150,13 @@ export class RawApi<T extends AuthType> {
         return this.req("POST", "/api/game/create-construction", args);
     }
 
-    public async getRoomObjects(args: { room: string; shard: string }): Promise<RoomObjectReturn> {
+    public async getRoomObjects(args: { room: string; shard?: string }): Promise<RoomObjectReturn> {
         return this.req("GET", "/api/game/room-objects", args);
     }
 
     public async getEncodedRoomTerrain(args: {
         room: string;
-        shard: string;
+        shard?: string;
     }): Promise<{ ok: number; terrain: [{ _id: string; room: string; terrain: string; type: string }] }> {
         return this.req("GET", "/api/game/room-terrain", { ...args, encoded: 1 });
     }

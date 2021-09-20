@@ -1,25 +1,12 @@
 import * as assert from "assert";
 
-import { userData } from "../../authInfo";
+import { apiConfig } from "../../authInfo";
 import { writeFileSync } from "fs";
 import { ScreepsApi } from "../../src";
 import { ApiConfig } from "../../src/type";
 // 上面的userData需要自己在根目录创建，示例参照根目录的authInfoSample.ts
 describe("api", () => {
     describe("create api", () => {
-        const apiConfig: ApiConfig<"signinByPassword"> = {
-            authInfo: {
-                type: "signinByPassword",
-                email: userData.email,
-                password: userData.password
-            },
-            hostInfo: {
-                protocol: "https",
-                port: 443,
-                path: "/",
-                hostname: "screeps.com"
-            }
-        };
         const api = new ScreepsApi(apiConfig);
         const rawApi = api.rawApi;
         const socket = api.socket;
@@ -41,7 +28,10 @@ describe("api", () => {
 
         it("test socket", async () => {
             let hasCpu = false;
-
+            if (api.apiConfig.hostInfo.protocol === "localhost") {
+                console.log("socket is not usable in private server");
+                return;
+            }
             await api.auth();
             await socket.connect();
             await socket.subscribe("cpu");
@@ -65,7 +55,7 @@ describe("api", () => {
         });
 
         it("sign in", async () => {
-            const data = await rawApi.auth();
+            const data = await api.auth();
             console.log(data);
         });
 
@@ -83,15 +73,29 @@ describe("api", () => {
         });
 
         it("get roomObjects", async () => {
-            const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E34S21" });
-            console.log(data.objects[0]._id);
+            const data = await rawApi.getRoomObjects({ room: "E4N1" });
+            console.log(data.objects?.[0]?._id);
             // const name = "test-E34S21";
             // writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
         });
 
         it("get encoded roomTerrain", async () => {
-            const data = await rawApi.getEncodedRoomTerrain({ shard: "shard3", room: "E34S21" });
+            const data = await rawApi.getEncodedRoomTerrain({ room: "E4N1" });
             console.log(data);
+        });
+
+        it("get me", async () => {
+            const data = await rawApi.me();
+            console.log(data);
+            const name = "test-me";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
+
+        it("test", async () => {
+            const data = await rawApi.req("GET", "/api/user/overview", { interval: 8, statName: "energy" });
+            console.log(data);
+            const name = "test-test";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
         });
     });
 });

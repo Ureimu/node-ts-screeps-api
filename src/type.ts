@@ -12,7 +12,7 @@ export type AuthInfo<T extends AuthType> = T extends "signinByToken"
     : { type: T; email: string; password: string };
 
 export interface HostInfo {
-    protocol: "http" | "https";
+    protocol: "http" | "https" | "localhost";
     hostname: string;
     port: number;
     path: string;
