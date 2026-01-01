@@ -4,9 +4,9 @@ export type RawApiPostData<T extends RawApiType> = T extends "signinByPassword"
     : T extends "signinByToken"
     ? { token: string }
     : T extends "getSegment"
-    ? { shard: string; segment: number }
+    ? { shard?: string; segment: number }
     : T extends "postSegment"
-    ? { shard: string; segment: number; data: string }
+    ? { shard?: string; segment: number; data: string }
     : never;
 
 export type RawApiReturnData<T extends RawApiType> = T extends "signinByPassword"

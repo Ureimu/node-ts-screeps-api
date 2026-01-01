@@ -65,4 +65,7 @@ export interface MyUserInfo {
         username: string;
         followers_count: number;
     };
+    cpuShard?: {
+        [shardName: string]: number;
+    };
 }
