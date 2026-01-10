@@ -72,6 +72,13 @@ describe("api", () => {
         //     assert.strictEqual(data.data, testStr);
         // });
 
+        it("get world size", async () => {
+            const data = await rawApi.getWorldSize({ shard: "shard3" });
+            console.log(data);
+            // const name = "test-E34S21";
+            // writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
+
         it("get roomObjects", async () => {
             const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E4N1" });
             console.log(data.objects?.[0]?._id);
