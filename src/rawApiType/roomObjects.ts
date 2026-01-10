@@ -5,15 +5,18 @@ export interface RoomObjectReturn {
     objects: AnyRoomObjects[];
     user: { [name: string]: { _id: string; username: string; badge: Badge } };
 }
-export type AnyRoomObjects = Source | Mineral | Controller;
-export type RoomObjectType = "source" | "mineral" | "controller";
+export type AnyRoomObjects = Source | Mineral | Controller | Portal;
+export type RoomObjectType = "source" | "mineral" | "controller" | "portal";
 export type SpecifiedRoomObject<T extends RoomObjectType> = T extends "source"
     ? Source
     : T extends "mineral"
     ? Mineral
     : T extends "controller"
     ? Controller
+    : T extends "portal"
+    ? Portal
     : never;
+
 export interface BasicRoomObject {
     x: number;
     y: number;
@@ -73,4 +76,12 @@ export interface Controller extends BasicRoomObject {
      * @memberof Controller
      */
     safeModeAvailable: number;
+}
+
+export interface Portal extends BasicRoomObject {
+    type: "portal";
+    destination: {
+        room: string;
+        shard: string;
+    };
 }

@@ -2,7 +2,7 @@
 import { RawApiPostData, RawApiReturnData } from "./apiType";
 import axios, { AxiosInstance } from "axios";
 import { promisify } from "util";
-import { gunzip, inflate } from "zlib";
+import { gunzip, inflate, InputType } from "zlib";
 import { ApiConfig, AuthType, Badge, BasicRequestMethod, MyUserInfo, RequestOpts } from "./type";
 import { RoomObjectReturn } from "./rawApiType/roomObjects";
 
@@ -35,7 +35,7 @@ export class RawApi<T extends AuthType> {
     }
     private async gz<T>(data: string): Promise<T> {
         const buf = Buffer.from(data.slice(3), "base64");
-        const ret = (await gunzipAsync(buf)) as { toString: () => string };
+        const ret = (await gunzipAsync(buf as unknown as InputType)) as { toString: () => string };
         return JSON.parse(ret.toString()) as T;
     }
     public async req<T>(method: BasicRequestMethod, path: string, body = {}, headers = {}): Promise<T> {
@@ -77,7 +77,7 @@ export class RawApi<T extends AuthType> {
 
     public async inflate(data: string): Promise<string> {
         const buf = Buffer.from(data.slice(3), "base64");
-        const ret = (await inflateAsync(buf)) as Buffer;
+        const ret = (await inflateAsync(buf as unknown as InputType)) as Buffer;
         return JSON.parse(ret.toString()) as string;
     }
 

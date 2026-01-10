@@ -1,6 +1,6 @@
 {
     "name": "node-ts-screeps-api",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "node-ts-screeps-api",
     "main": "dist/index.js",
     "typings": "./dist/src/index.d.ts",
@@ -22,9 +22,6 @@
         "url": "https://github.com/Ureimu/node-ts-screeps-api/issues"
     },
     "homepage": "https://github.com/Ureimu/node-ts-screeps-api#readme",
-    "engines": {
-        "node": "10.x || 12.x"
-    },
     "devDependencies": {
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^7.1.3",

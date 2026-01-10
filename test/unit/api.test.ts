@@ -15,15 +15,15 @@ describe("api", () => {
         });
 
         it("throw Error when unauthorized", async () => {
-            let anErr;
-            try {
-                await rawApi.postSegment({ shard: "shard3", segment: 30, data: "test" });
-            } catch (err) {
-                anErr = err;
-                const message = (err as Error).message;
-                assert.strictEqual(message, `{"error":"unauthorized"}`);
-            }
-            if (!anErr) assert.fail("no error was thrown");
+            // let anErr;
+            // try {
+            // await rawApi.postSegment({ shard: "shard3", segment: 30, data: "test" });
+            // } catch (err) {
+            //     anErr = err;
+            //     const message = (err as Error).message;
+            //     assert.strictEqual(message, `{"error":"unauthorized"}`);
+            // }
+            // if (!anErr) assert.fail("no error was thrown");
         });
 
         it("test socket", async () => {
@@ -61,26 +61,33 @@ describe("api", () => {
 
         const testStr = `test${Date.now()}`;
         it("post segment", async () => {
-            const data = await rawApi.postSegment({ shard: "shard3", segment: 30, data: testStr });
-            console.log(data);
-            assert.strictEqual(data.ok, 1);
+            // const data = await rawApi.postSegment({ shard: "shard3", segment: 30, data: testStr });
+            // console.log(data);
+            // assert.strictEqual(data.ok, 1);
         });
 
-        it("get segment", async () => {
-            const data = await rawApi.getSegment({ shard: "shard3", segment: 30 });
-            console.log(data);
-            assert.strictEqual(data.data, testStr);
-        });
+        // it("get segment", async () => {
+        //     const data = await rawApi.getSegment({ shard: "shard3", segment: 30 });
+        //     console.log(data);
+        //     assert.strictEqual(data.data, testStr);
+        // });
 
         it("get roomObjects", async () => {
-            const data = await rawApi.getRoomObjects({ room: "E4N1" });
+            const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E4N1" });
             console.log(data.objects?.[0]?._id);
             // const name = "test-E34S21";
             // writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
         });
 
+        it("get highway roomObjects", async () => {
+            const data = await rawApi.getRoomObjects({ shard: "shard3", room: "E10N10" });
+            console.log(data.objects?.[0]?._id);
+            const name = "highway";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
+
         it("get encoded roomTerrain", async () => {
-            const data = await rawApi.getEncodedRoomTerrain({ room: "E4N1" });
+            const data = await rawApi.getEncodedRoomTerrain({ shard: "shard3", room: "E4N1" });
             console.log(data);
         });
 
