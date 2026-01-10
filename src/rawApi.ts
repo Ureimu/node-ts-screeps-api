@@ -161,7 +161,7 @@ export class RawApi<T extends AuthType> {
         return this.req("GET", "/api/game/room-terrain", { ...args, encoded: 1 });
     }
 
-    public async getWorldSize(args: { shard: string }): Promise<{ width: number; height: number }> {
+    public async getWorldSize(args: { shard: string }): Promise<{ ok: number; width: number; height: number }> {
         return this.req("GET", "/api/game/world-size", args);
     }
 }
