@@ -81,7 +81,33 @@ export interface Controller extends BasicRoomObject {
 export interface Portal extends BasicRoomObject {
     type: "portal";
     destination: {
+        /**
+         * 表示目的地room。
+         *
+         * @type {string}
+         */
         room: string;
-        shard: string;
+        /**
+         * 表示目的地shard，如果没有则目的地为同shard位置。
+         *
+         * @type {string}
+         */
+        shard?: string;
     };
+    /**
+     * portal的过期时间。
+     *
+     * 当到达该时间时，该属性消失，portal会增加一个decayTime属性，表示过期的Game.time。
+     *
+     * @type {number}
+     * @memberof Portal
+     */
+    unstableDate?: number;
+    /**
+     * portal过期的Game.time。
+     *
+     * @type {number}
+     * @memberof Portal
+     */
+    decayTime?: number;
 }
