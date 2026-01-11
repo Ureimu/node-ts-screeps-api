@@ -94,6 +94,18 @@ export class RawApi<T extends AuthType> {
         return this.req("POST", "/api/user/memory-segment", args);
     }
 
+    public async getMemory(args: { path?: string; shard?: string }): Promise<{ ok: number; data: string }> {
+        return this.req("GET", "/api/user/memory", args);
+    }
+
+    public async postMemory(args: {
+        path?: string;
+        value: string;
+        shard?: string;
+    }): Promise<{ ok: number; data: string }> {
+        return this.req("POST", "/api/user/memory", args);
+    }
+
     public async findUser(username: string): Promise<{
         ok: number;
         user: {

@@ -5,7 +5,8 @@ const userData = {
     email: "notMyEmail@abc.com",
     password: "notMyPassword"
 };
-export const apiConfig: ApiConfig<"signinByPassword"> = {
+
+export const localServerApiConfig: ApiConfig<"signinByPassword"> = {
     authInfo: {
         type: "signinByPassword",
         email: userData.email,
@@ -16,5 +17,19 @@ export const apiConfig: ApiConfig<"signinByPassword"> = {
         port: 21025,
         path: "/",
         hostname: "127.0.0.1"
+    }
+};
+
+export const officialServerApiConfig: ApiConfig<"signinByPassword"> = {
+    authInfo: {
+        type: "signinByPassword",
+        email: userData.email,
+        password: userData.password
+    },
+    hostInfo: {
+        protocol: "https",
+        port: 443,
+        path: "/",
+        hostname: "screeps.com"
     }
 };
