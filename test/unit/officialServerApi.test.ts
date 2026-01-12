@@ -29,5 +29,27 @@ describe("api", () => {
             const name = "memory-creeps";
             writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
         });
+
+        it("test getMemory with invalid path", async () => {
+            const data = await rawApi.getMemory({ path: "__path_not_exist", shard: "shard3" });
+            const name = "memory-invalid-path";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
+
+        it("test postMemory", async () => {
+            const data = await rawApi.postMemory({ value: { testValue: 1 }, path: "__test__", shard: "shard3" });
+            const name = "post-memory";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
+
+        it("test postMemory with modify", async () => {
+            const data = await rawApi.postMemory({
+                value: { testValue: 2, anotherValue: 3 },
+                path: "__test__",
+                shard: "shard3"
+            });
+            const name = "post-memory-modify";
+            writeFileSync(`test/data/roomObjects/${name}.json`, JSON.stringify(data, null, 4));
+        });
     });
 });
