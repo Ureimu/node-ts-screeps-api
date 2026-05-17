@@ -1,12 +1,13 @@
 {
     "name": "node-ts-screeps-api",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "node-ts-screeps-api",
     "main": "dist/index.js",
     "typings": "./dist/src/index.d.ts",
     "scripts": {
         "lint": "eslint \"src/**/*.ts\"",
         "build": "rollup -c",
+        "build-and-publish": "npm run build & npm publish",
         "test": "npm run test-unit & npm run test-integration",
         "test-unit": "mocha test/unit/**/*.ts",
         "test-integration": "mocha test/integration/**/*.ts",
