@@ -173,7 +173,7 @@ export class RawApi<T extends AuthType> {
         return this.req("GET", "/api/game/world-size", args);
     }
 
-    public async getUserRooms(args: { interval: number }): Promise<{
+    public async getUserRooms(args: { id: string }): Promise<{
         ok: number;
         shards: Record<string, string[]>;
         reservations: Record<string, string[]>;
